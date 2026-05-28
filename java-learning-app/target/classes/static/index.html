@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaLearn — 자바 학습 플랫폼</title>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Gemini API 키 설정 (Java 서버 없이 테스트할 때 사용) -->
+  <!-- 프로덕션에서는 반드시 Java 서버를 통해 호출하세요 -->
+  <script>
+    window.GEMINI_API_KEY = 'AIzaSyBW8pplOPkcVcWCwPYv-jQM_FDnnxwIBJg'; // 개발 테스트용: 여기에 API 키 입력
+  </script>
+</head>
+<body>
+
+<!-- ===== 네비게이션 ===== -->
+<nav class="navbar">
+  <a class="navbar-logo" onclick="goHome()" style="cursor:pointer;">
+    <span>☕</span> JavaLearn
+  </a>
+  <div class="navbar-spacer"></div>
+  <div class="navbar-progress">
+    <span id="nav-progress-label" style="font-size:13px;color:var(--text-muted);">0/0 완료</span>
+    <div class="navbar-progress-bar">
+      <div class="navbar-progress-fill" id="nav-progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+  <button class="btn-chatbot" onclick="openChatbot()">
+    🤖 AI 튜터
+  </button>
+</nav>
+
+<!-- ===== 메인 페이지 ===== -->
+<div class="page active" id="page-main">
+  <div class="main-hero">
+    <h1>자바를 정복하자 ☕</h1>
+    <p>듀오링고처럼 단계별로 배우는 자바 핵심 개념</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="stat-done">0</div>
+        <div class="hero-stat-label">완료한 단원</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="stat-total">0</div>
+        <div class="hero-stat-label">전체 단원</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="stat-score">-</div>
+        <div class="hero-stat-label">평균 점수</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lessons-section">
+    <h2>📚 학습 단원</h2>
+    <div class="lessons-grid" id="lessons-grid">
+      <!-- 동적으로 렌더링 -->
+      <div style="text-align:center;padding:40px;color:var(--text-muted);">로딩 중...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 학습 페이지 ===== -->
+<div class="page" id="page-learn">
+  <div class="learn-layout">
+    <!-- 브레드크럼 -->
+    <div class="learn-breadcrumb">
+      <a onclick="goHome()">홈</a>
+      <span>›</span>
+      <span id="learn-breadcrumb-lesson">단원</span>
+    </div>
+
+    <!-- 단계 표시 -->
+    <div class="step-indicator">
+      <div class="step-item">
+        <div class="step-circle active" id="step-circle-1">1</div>
+        <div class="step-label active" id="step-label-1">개념 학습</div>
+      </div>
+      <div class="step-line" id="step-line-1"></div>
+      <div class="step-item">
+        <div class="step-circle" id="step-circle-2">2</div>
+        <div class="step-label" id="step-label-2">퀴즈</div>
+      </div>
+      <div class="step-line" id="step-line-2"></div>
+      <div class="step-item">
+        <div class="step-circle" id="step-circle-3">3</div>
+        <div class="step-label" id="step-label-3">완료</div>
+      </div>
+    </div>
+
+    <!-- 개념 카드 -->
+    <div class="concept-card fade-in">
+      <h2 id="learn-lesson-title">클래스와 객체</h2>
+      <div class="concept-summary" id="learn-concept-summary"></div>
+      <ul class="concept-details" id="learn-concept-details"></ul>
+
+      <!-- 코드 예제 -->
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-lang">Java</span>
+          <button class="code-copy-btn" id="code-copy-btn" onclick="copyCode()">복사</button>
+        </div>
+        <pre><code id="learn-code-content"></code></pre>
+      </div>
+    </div>
+
+    <!-- AI에게 질문 배너 -->
+    <div style="background:var(--primary-light);border:1px solid #bfdbfe;border-radius:var(--radius-md);padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:22px;">🤖</span>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;color:var(--primary);margin-bottom:2px;">이해가 안 되는 부분이 있나요?</div>
+        <div style="font-size:12px;color:var(--text-muted);">AI 튜터에게 바로 질문해보세요</div>
+      </div>
+      <button class="btn btn-primary" style="padding:8px 14px;font-size:13px;white-space:nowrap;" onclick="openChatbot()">질문하기</button>
+    </div>
+
+    <!-- 하단 버튼 -->
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-secondary" onclick="goHome()">← 홈으로</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="startQuiz()">퀴즈 풀기 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 퀴즈 페이지 ===== -->
+<div class="page" id="page-quiz">
+  <div class="quiz-layout">
+    <!-- 브레드크럼 -->
+    <div class="learn-breadcrumb">
+      <a onclick="goHome()">홈</a>
+      <span>›</span>
+      <a onclick="startLesson(App.currentLesson?.id)">개념 학습</a>
+      <span>›</span>
+      <span id="quiz-lesson-title">퀴즈</span>
+    </div>
+
+    <!-- 퀴즈 헤더 -->
+    <div class="quiz-header">
+      <div class="quiz-meta">
+        <span class="quiz-count" id="quiz-count">문제 1 / 3</span>
+        <span class="quiz-score-badge" id="quiz-score-badge">점수: 0</span>
+      </div>
+      <div class="quiz-progress-bar">
+        <div class="quiz-progress-fill" id="quiz-progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- 퀴즈 카드 -->
+    <div class="quiz-card fade-in">
+      <div class="quiz-question" id="quiz-question"></div>
+      <div class="quiz-options" id="quiz-options"></div>
+      <div class="feedback-box" id="quiz-feedback"></div>
+    </div>
+
+    <!-- 퀴즈 하단 버튼 -->
+    <div class="quiz-nav">
+      <button class="btn btn-secondary" onclick="openChatbot()" title="이 문제 AI에게 질문">🤖 질문</button>
+      <button class="btn btn-primary" id="quiz-next-btn" onclick="nextQuiz()" disabled>다음 문제 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 결과 페이지 ===== -->
+<div class="page" id="page-result">
+  <div class="quiz-layout">
+    <div class="result-card fade-in">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <div class="result-title" id="result-title">잘했어요!</div>
+      <div style="color:var(--text-muted);font-size:14px;margin-bottom:4px;" id="result-lesson-title"></div>
+      <div class="result-score">
+        <span id="result-score">0</span>
+        <span>점</span>
+      </div>
+      <div class="result-message" id="result-message"></div>
+      <div class="result-actions">
+        <button class="btn btn-secondary" onclick="startQuiz()">🔄 다시 풀기</button>
+        <button class="btn btn-primary" onclick="goHome()">🏠 홈으로</button>
+      </div>
+    </div>
+
+    <!-- AI 피드백 유도 -->
+    <div style="margin-top:16px;text-align:center;">
+      <button class="btn btn-secondary" onclick="askResultFeedback()" style="width:100%;">
+        🤖 AI에게 틀린 문제 설명 듣기
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AI 챗봇 오버레이 ===== -->
+<div class="chatbot-overlay" id="chatbot-overlay">
+  <div class="chatbot-window">
+    <!-- 챗봇 헤더 -->
+    <div class="chatbot-header">
+      <div class="chatbot-avatar">🤖</div>
+      <div class="chatbot-info">
+        <div class="chatbot-name">JavaLearn AI 튜터</div>
+        <div class="chatbot-status">Gemini 기반 · 항상 대기 중</div>
+      </div>
+      <button class="chatbot-close" onclick="closeChatbot()">✕</button>
+    </div>
+
+    <!-- 메시지 영역 -->
+    <div class="chatbot-messages" id="chatbot-messages"></div>
+
+    <!-- 빠른 질문 버튼 -->
+    <div class="chatbot-quick-btns" id="chatbot-quick-btns">
+      <button class="quick-btn" onclick="quickAsk('현재 단원 개념을 다시 설명해줘')">💡 개념 다시 설명</button>
+      <button class="quick-btn" onclick="quickAsk('코드 예제를 더 보여줘')">💻 코드 예제</button>
+      <button class="quick-btn" onclick="quickAsk('실무에서는 어떻게 쓰여?')">🏢 실무 활용</button>
+      <button class="quick-btn" onclick="quickAsk('연습 문제를 내줘')">📝 연습 문제</button>
+    </div>
+
+    <!-- 입력 영역 -->
+    <div class="chatbot-input-area">
+      <textarea
+        class="chatbot-input"
+        id="chatbot-input"
+        placeholder="궁금한 것을 질문하세요... (Enter로 전송)"
+        rows="1"
+      ></textarea>
+      <button class="chatbot-send" id="chatbot-send-btn" onclick="sendMessage()">➤</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+<script src="/js/chatbot.js"></script>
+<script>
+  // 홈으로 이동
+  function goHome() {
+    App.currentLesson = null;
+    renderMainPage();
+    showPage('page-main');
+  }
+
+  // 결과 페이지에서 AI 피드백 요청
+  function askResultFeedback() {
+    const lesson = App.currentLesson;
+    if (!lesson) return;
+    openChatbot();
+    setTimeout(() => {
+      sendMessage(`"${lesson.title}" 퀴즈를 방금 풀었어요. 핵심 개념을 다시 한번 정리해서 설명해줘`);
+    }, 500);
+  }
+</script>
+</body>
+</html>

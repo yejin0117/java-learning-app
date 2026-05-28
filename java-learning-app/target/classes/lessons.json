@@ -1,0 +1,244 @@
+{
+  "lessons": [
+    {
+      "id": 1,
+      "title": "클래스와 객체",
+      "icon": "☕",
+      "description": "자바의 기본 단위인 클래스와 객체를 배웁니다",
+      "color": "#3b82f6",
+      "concept": {
+        "summary": "클래스(Class)는 객체를 만들기 위한 설계도입니다. 객체(Object)는 그 설계도를 바탕으로 실제로 만들어진 것입니다.",
+        "details": [
+          "클래스는 속성(필드)과 동작(메서드)을 정의합니다.",
+          "객체는 클래스를 기반으로 new 키워드로 생성합니다.",
+          "하나의 클래스로 여러 개의 객체를 만들 수 있습니다."
+        ],
+        "codeExample": "// 클래스 정의\npublic class Car {\n    String brand;  // 속성(필드)\n    int speed;\n\n    // 메서드\n    void accelerate() {\n        speed += 10;\n        System.out.println(brand + \" 속도: \" + speed);\n    }\n}\n\n// 객체 생성 및 사용\npublic class Main {\n    public static void main(String[] args) {\n        Car myCar = new Car();  // 객체 생성\n        myCar.brand = \"현대\";\n        myCar.accelerate();  // 현대 속도: 10\n    }\n}"
+      },
+      "quiz": [
+        {
+          "id": 1,
+          "question": "클래스를 정의할 때 사용하는 키워드는 무엇인가요?",
+          "options": ["class", "object", "define", "new"],
+          "answer": 0,
+          "explanation": "class 키워드를 사용해 클래스를 정의합니다. class 뒤에 클래스 이름을 쓰고 중괄호 {} 안에 내용을 작성합니다."
+        },
+        {
+          "id": 2,
+          "question": "객체를 생성할 때 사용하는 키워드는 무엇인가요?",
+          "options": ["create", "make", "new", "build"],
+          "answer": 2,
+          "explanation": "new 키워드를 사용해 클래스로부터 객체를 생성합니다. 예: Car myCar = new Car();"
+        },
+        {
+          "id": 3,
+          "question": "다음 중 클래스에 대한 설명으로 올바른 것은?",
+          "options": [
+            "클래스는 실제로 메모리에 생성된 것이다",
+            "클래스는 객체를 만들기 위한 설계도이다",
+            "하나의 클래스로는 하나의 객체만 만들 수 있다",
+            "클래스는 메서드만 가질 수 있다"
+          ],
+          "answer": 1,
+          "explanation": "클래스는 객체를 만들기 위한 설계도입니다. 하나의 클래스로 여러 개의 객체를 만들 수 있으며, 필드와 메서드를 모두 가질 수 있습니다."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "생성자와 this",
+      "icon": "🔧",
+      "description": "객체 초기화를 담당하는 생성자와 this 키워드를 배웁니다",
+      "color": "#8b5cf6",
+      "concept": {
+        "summary": "생성자(Constructor)는 객체가 생성될 때 자동으로 호출되는 특별한 메서드입니다. this 키워드는 현재 객체 자신을 가리킵니다.",
+        "details": [
+          "생성자는 클래스 이름과 동일하고 반환 타입이 없습니다.",
+          "생성자를 통해 객체의 초기값을 설정할 수 있습니다.",
+          "this 키워드로 필드와 매개변수를 구분할 수 있습니다."
+        ],
+        "codeExample": "public class Person {\n    String name;\n    int age;\n\n    // 생성자\n    public Person(String name, int age) {\n        this.name = name;  // this.name = 필드, name = 매개변수\n        this.age = age;\n    }\n\n    void introduce() {\n        System.out.println(\"이름: \" + this.name + \", 나이: \" + this.age);\n    }\n}\n\n// 사용\nPerson p = new Person(\"김철수\", 20);\np.introduce();  // 이름: 김철수, 나이: 20"
+      },
+      "quiz": [
+        {
+          "id": 1,
+          "question": "생성자(Constructor)에 대한 설명으로 올바른 것은?",
+          "options": [
+            "반환 타입이 void인 메서드이다",
+            "클래스 이름과 달라도 된다",
+            "객체 생성 시 자동으로 호출된다",
+            "static 키워드가 필요하다"
+          ],
+          "answer": 2,
+          "explanation": "생성자는 객체가 new 키워드로 생성될 때 자동으로 호출됩니다. 클래스 이름과 동일해야 하며, 반환 타입을 작성하지 않습니다."
+        },
+        {
+          "id": 2,
+          "question": "this 키워드의 역할로 올바른 것은?",
+          "options": [
+            "다른 클래스를 가리킨다",
+            "현재 객체 자신을 가리킨다",
+            "부모 클래스를 가리킨다",
+            "static 멤버를 가리킨다"
+          ],
+          "answer": 1,
+          "explanation": "this는 현재 객체(인스턴스) 자신을 가리키는 키워드입니다. 주로 필드명과 매개변수명이 같을 때 구분하기 위해 사용합니다."
+        },
+        {
+          "id": 3,
+          "question": "다음 코드에서 this.name이 가리키는 것은?\npublic Person(String name) { this.name = name; }",
+          "options": [
+            "매개변수 name",
+            "클래스 Person",
+            "필드 name",
+            "메서드 name"
+          ],
+          "answer": 2,
+          "explanation": "this.name은 현재 객체의 필드(멤버 변수) name을 가리킵니다. 우항의 name은 매개변수 name입니다."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "상속 (Inheritance)",
+      "icon": "🔗",
+      "description": "코드 재사용의 핵심, 상속 개념을 배웁니다",
+      "color": "#10b981",
+      "concept": {
+        "summary": "상속은 기존 클래스(부모)의 속성과 메서드를 새 클래스(자식)가 물려받는 것입니다. extends 키워드를 사용합니다.",
+        "details": [
+          "자식 클래스는 부모 클래스의 필드와 메서드를 사용할 수 있습니다.",
+          "자식 클래스는 부모 메서드를 오버라이딩(재정의)할 수 있습니다.",
+          "super 키워드로 부모 클래스에 접근할 수 있습니다."
+        ],
+        "codeExample": "// 부모 클래스\npublic class Animal {\n    String name;\n\n    void speak() {\n        System.out.println(name + \"이 소리를 냅니다\");\n    }\n}\n\n// 자식 클래스 (상속)\npublic class Dog extends Animal {\n    \n    @Override\n    void speak() {\n        System.out.println(name + \": 멍멍!\");  // 오버라이딩\n    }\n\n    void fetch() {\n        System.out.println(name + \"이 공을 가져옵니다\");\n    }\n}\n\n// 사용\nDog dog = new Dog();\ndog.name = \"바둑이\";  // 부모 필드 사용\ndog.speak();   // 바둑이: 멍멍!\ndog.fetch();   // 바둑이이 공을 가져옵니다"
+      },
+      "quiz": [
+        {
+          "id": 1,
+          "question": "자바에서 상속을 구현할 때 사용하는 키워드는?",
+          "options": ["implements", "extends", "inherits", "super"],
+          "answer": 1,
+          "explanation": "extends 키워드를 사용해 상속을 구현합니다. class 자식클래스 extends 부모클래스 형태로 작성합니다."
+        },
+        {
+          "id": 2,
+          "question": "부모 클래스의 메서드를 자식 클래스에서 재정의하는 것을 무엇이라 하나요?",
+          "options": ["오버로딩", "오버라이딩", "캡슐화", "추상화"],
+          "answer": 1,
+          "explanation": "오버라이딩(Overriding)은 부모 클래스의 메서드를 자식 클래스에서 같은 이름으로 재정의하는 것입니다. @Override 어노테이션을 붙이는 것이 권장됩니다."
+        },
+        {
+          "id": 3,
+          "question": "super 키워드의 역할은?",
+          "options": [
+            "현재 객체를 가리킨다",
+            "자식 클래스를 가리킨다",
+            "부모 클래스에 접근한다",
+            "static 메서드를 호출한다"
+          ],
+          "answer": 2,
+          "explanation": "super는 부모 클래스를 가리키는 키워드입니다. super()로 부모 생성자를 호출하거나 super.메서드()로 부모 메서드를 호출할 수 있습니다."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "다형성 (Polymorphism)",
+      "icon": "🔄",
+      "description": "하나의 타입으로 여러 객체를 다루는 다형성을 배웁니다",
+      "color": "#f59e0b",
+      "concept": {
+        "summary": "다형성은 같은 타입의 변수가 상황에 따라 다른 동작을 하는 것입니다. 코드의 유연성과 확장성을 높여줍니다.",
+        "details": [
+          "부모 타입 변수로 자식 객체를 참조할 수 있습니다.",
+          "같은 메서드 호출이 객체에 따라 다르게 동작합니다.",
+          "instanceof로 객체의 실제 타입을 확인할 수 있습니다."
+        ],
+        "codeExample": "public class Animal {\n    void speak() { System.out.println(\"...\"); }\n}\n\npublic class Dog extends Animal {\n    @Override\n    void speak() { System.out.println(\"멍멍!\"); }\n}\n\npublic class Cat extends Animal {\n    @Override\n    void speak() { System.out.println(\"야옹!\"); }\n}\n\n// 다형성 활용\nAnimal[] animals = {\n    new Dog(),\n    new Cat(),\n    new Dog()\n};\n\nfor (Animal a : animals) {\n    a.speak();  // 각각 다르게 동작\n}\n// 멍멍!\n// 야옹!\n// 멍멍!"
+      },
+      "quiz": [
+        {
+          "id": 1,
+          "question": "다형성(Polymorphism)에 대한 설명으로 올바른 것은?",
+          "options": [
+            "하나의 객체가 여러 클래스를 상속받는 것",
+            "같은 타입의 변수가 다양한 객체를 참조하는 것",
+            "메서드 이름을 여러 개 만드는 것",
+            "클래스를 여러 번 선언하는 것"
+          ],
+          "answer": 1,
+          "explanation": "다형성은 부모 타입의 변수가 자식 클래스의 객체를 참조하고, 같은 메서드 호출이 실제 객체에 따라 다르게 동작하는 것입니다."
+        },
+        {
+          "id": 2,
+          "question": "Animal a = new Dog(); 에서 a.speak()를 호출하면?",
+          "options": [
+            "Animal의 speak()가 호출된다",
+            "Dog의 speak()가 호출된다",
+            "오류가 발생한다",
+            "아무것도 출력되지 않는다"
+          ],
+          "answer": 1,
+          "explanation": "자바는 실제 객체의 타입(Dog)을 기준으로 메서드를 호출합니다. 이를 동적 바인딩(Dynamic Binding)이라고 합니다."
+        },
+        {
+          "id": 3,
+          "question": "객체의 실제 타입을 확인하는 키워드는?",
+          "options": ["typeof", "checktype", "instanceof", "classof"],
+          "answer": 2,
+          "explanation": "instanceof 키워드로 객체가 특정 클래스의 인스턴스인지 확인할 수 있습니다. 예: if (a instanceof Dog) { ... }"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "인터페이스 (Interface)",
+      "icon": "🛡️",
+      "description": "자바의 계약서, 인터페이스의 개념과 활용법을 배웁니다",
+      "color": "#ef4444",
+      "concept": {
+        "summary": "인터페이스는 클래스가 반드시 구현해야 할 메서드를 정의하는 일종의 계약서입니다. implements 키워드로 구현합니다.",
+        "details": [
+          "인터페이스의 메서드는 기본적으로 추상 메서드입니다.",
+          "하나의 클래스가 여러 인터페이스를 구현할 수 있습니다.",
+          "상속은 단일 상속만 가능하지만 인터페이스는 다중 구현이 가능합니다."
+        ],
+        "codeExample": "// 인터페이스 정의\npublic interface Flyable {\n    void fly();  // 추상 메서드\n}\n\npublic interface Swimmable {\n    void swim();\n}\n\n// 다중 인터페이스 구현\npublic class Duck implements Flyable, Swimmable {\n    \n    @Override\n    public void fly() {\n        System.out.println(\"오리가 날아갑니다\");\n    }\n\n    @Override\n    public void swim() {\n        System.out.println(\"오리가 수영합니다\");\n    }\n}\n\n// 사용\nDuck duck = new Duck();\nduck.fly();   // 오리가 날아갑니다\nduck.swim();  // 오리가 수영합니다"
+      },
+      "quiz": [
+        {
+          "id": 1,
+          "question": "인터페이스를 구현할 때 사용하는 키워드는?",
+          "options": ["extends", "inherits", "implements", "uses"],
+          "answer": 2,
+          "explanation": "implements 키워드를 사용해 인터페이스를 구현합니다. class 클래스명 implements 인터페이스명 형태로 작성합니다."
+        },
+        {
+          "id": 2,
+          "question": "인터페이스와 상속의 차이점으로 올바른 것은?",
+          "options": [
+            "인터페이스는 단일 구현만 가능하다",
+            "상속은 다중 상속이 가능하다",
+            "인터페이스는 다중 구현이 가능하다",
+            "둘 다 extends를 사용한다"
+          ],
+          "answer": 2,
+          "explanation": "자바에서 클래스 상속은 단일 상속만 가능하지만, 인터페이스는 여러 개를 동시에 구현할 수 있습니다."
+        },
+        {
+          "id": 3,
+          "question": "인터페이스를 구현한 클래스는 어떻게 해야 하나요?",
+          "options": [
+            "인터페이스의 메서드 중 원하는 것만 구현한다",
+            "인터페이스의 모든 추상 메서드를 구현해야 한다",
+            "메서드를 구현하지 않아도 된다",
+            "새로운 메서드를 추가할 수 없다"
+          ],
+          "answer": 1,
+          "explanation": "인터페이스를 구현하는 클래스는 인터페이스에 선언된 모든 추상 메서드를 반드시 구현해야 합니다. 구현하지 않으면 컴파일 에러가 발생합니다."
+        }
+      ]
+    }
+  ]
+}
